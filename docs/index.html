@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>mary-special</title>
+  <style>
+    body {
+      margin: 0;
+      font-size: 0;
+    }
+    canvas {
+      width: 100vw;
+      height: 100vh;
+    }
+  </style>
+</head>
+<body>
+<canvas></canvas>
+<script src="./app.js"></script>
+<script>
+  new MarySpecial({
+    $canvas: document.querySelector('canvas'),
+    /* 画像の表示サイズ */
+    width: 11520 * 0.25,
+    height: 7000 * 0.25,
+    /* 端までスクロールしたときの余白
+     * パララックス効果があるので余白がないと絵の外側が表示されてしまう */
+    margin: 0.1,
+    /* 画像レイヤー
+     * path: 画像までのパス
+     * strength: パララックス効果の強さ
+     * rubber: スクロール時にゴムみたいにバウンドさせる強さ。0.7ぐらいにすると分かりやすい
+     * speed: スクロールの速さ */
+    images: [
+      { path: './assets/images/layer01.png', strength: 0.1, rubber: 0.5, speed: 0.2 },
+      { path: './assets/images/layer02.png', strength: 0.0, rubber: 0.5, speed: 0.2 },
+      { path: './assets/images/layer03.png', strength: -0.1, rubber: 0.5, speed: 0.2 }
+    ]
+  });
+</script>
+</body>
+</html>
