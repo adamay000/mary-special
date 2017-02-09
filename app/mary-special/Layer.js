@@ -25,6 +25,8 @@ export default class Layer {
     this.sprite.scale.set(width / sprite.texture.width, height / sprite.texture.height);
     this.sprite.anchor.set(0.5);
 
+    this.isMoving = false;
+
     this.resize();
     this.scroll();
 
@@ -44,10 +46,15 @@ export default class Layer {
       this.velocityX = this.velocityX * this.scrollRubber + vectorX * (1 - this.scrollRubber);
       this.velocityY = this.velocityY * this.scrollRubber + vectorY * (1 - this.scrollRubber);
 
-      this.currentX += this.velocityX * this.scrollSpeed;
-      this.currentY += this.velocityY * this.scrollSpeed;
+      const moveX = this.velocityX * this.scrollSpeed;
+      const moveY = this.velocityY * this.scrollSpeed;
+
+      this.currentX += moveX;
+      this.currentY += moveY;
 
       this.scroll();
+
+      this.isMoving = moveX > 0.0001 || moveX < -0.0001 || moveY > 0.0001 || moveY < -0.0001;
     });
   }
 

@@ -17,7 +17,7 @@ export default class MarySpecial {
     this.layers = [];
 
     Loop.instance.on('every', () => {
-      this.renderer.render();
+      this.layers.some(layer => layer.isMoving) && this.renderer.render();
     });
     Loop.instance.start();
 
