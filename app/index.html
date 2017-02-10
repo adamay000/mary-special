@@ -21,20 +21,22 @@
   new MarySpecial({
     $canvas: document.querySelector('canvas'),
     /* 画像の表示サイズ */
-    width: 11520 * 0.25,
-    height: 7000 * 0.25,
+    width: 11520 * 0.5,
+    height: 7000 * 0.5,
     /* 端までスクロールしたときの余白
      * パララックス効果があるので余白がないと絵の外側が表示されてしまう */
     margin: 0.1,
+    /* スクロールの速さ */
+    scrollSpeed: 0.2,
+    /* スクロールの勢い */
+    scrollPower: 0.7,
     /* 画像レイヤー
      * path: 画像までのパス
-     * strength: パララックス効果の強さ
-     * rubber: スクロール時にゴムみたいにバウンドさせる強さ。0.7ぐらいにすると分かりやすい
-     * speed: スクロールの速さ */
+     * strength: パララックス効果の強さ */
     images: [
-      { path: './assets/images/layer01.png', strength: 0.1, rubber: 0.5, speed: 0.2 },
-      { path: './assets/images/layer02.png', strength: 0.0, rubber: 0.5, speed: 0.2 },
-      { path: './assets/images/layer03.png', strength: -0.1, rubber: 0.5, speed: 0.2 }
+      { path: './assets/images/layer01.png', strength: 0.05 },
+      { path: './assets/images/layer02.png', strength: 0.00 },
+      { path: './assets/images/layer03.png', strength: -0.05 }
     ]
   });
 </script>

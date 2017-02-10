@@ -8,37 +8,26 @@ export default class MarySpecial {
   constructor(params) {
     this.$canvas = params.$canvas;
     this.width = params.width;
-    this.height = params.height;
-    this.margin = params.margin;
-    this.scrollRubber = params.scrollRubber;
-    this.scrollSpeed = params.scrollSpeed;
 
     this.renderer = new Renderer(params.$canvas);
-    this.layers = [];
+    this.layer = new Layer(
+      params.$canvas,
+      params.width,
+      params.height,
+      params.margin,
+      params.scrollPower,
+      params.scrollSpeed
+    );
+    this.renderer.add(this.layer.container);
 
     Loop.instance.on('every', () => {
-      this.layers.some(layer => layer.isMoving) && this.renderer.render();
+      this.renderer.render();
     });
     Loop.instance.start();
 
     if (params.images) {
       this.initialize(params.images);
     }
-  }
-
-  addImage(imagePath, parallaxMagnification, scrollRubber, scrollSpeed) {
-    const layer = new Layer(
-      this.$canvas,
-      new PIXI.Sprite(PIXI.Texture.fromImage(imagePath)),
-      this.width,
-      this.height,
-      this.margin,
-      parallaxMagnification,
-      scrollRubber,
-      scrollSpeed
-    );
-    this.layers.push(layer);
-    this.renderer.add(layer.sprite);
   }
 
   preload(images, onComplete) {
@@ -49,7 +38,10 @@ export default class MarySpecial {
 
   initialize(images) {
     this.preload(images.map(image => image.path), () => {
-      images.forEach(image => this.addImage(image.path, image.strength, image.rubber, image.speed));
+      this.layer.initialize(images.map(image => ({
+        texture: PIXI.Texture.fromImage(image.path),
+        strength: image.strength
+      })));
     });
   }
 
