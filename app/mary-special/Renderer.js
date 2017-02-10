@@ -8,19 +8,17 @@ export default class Renderer {
       transparent: true
     });
     this.stage = new PIXI.Container();
-    this.centerize = new PIXI.Container();
-    this.stage.addChild(this.centerize);
 
     this.resize();
     window.addEventListener('resize', this.resize.bind(this));
   }
 
   add(obj) {
-    this.centerize.addChild(obj);
+    this.stage.addChild(obj);
   }
 
   remove(obj) {
-    this.centerize.removeChild(obj);
+    this.stage.removeChild(obj);
   }
 
   render() {
@@ -31,7 +29,6 @@ export default class Renderer {
     const width = this.renderer.view.getBoundingClientRect().width;
     const height = this.renderer.view.getBoundingClientRect().height;
     this.renderer.resize(width, height);
-    this.centerize.setTransform(width / 2, height / 2);
   }
 
 }
