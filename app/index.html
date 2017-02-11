@@ -12,17 +12,40 @@
       width: 100vw;
       height: 100vh;
     }
+    #videoel {
+      -o-transform : scaleX(-1);
+      -webkit-transform : scaleX(-1);
+      transform : scaleX(-1);
+      -ms-filter : fliph; /*IE*/
+      filter : fliph; /*IE*/
+    }
+    #overlay {
+       position: absolute;
+       top: 0px;
+       left: 0px;
+       -o-transform : scaleX(-1);
+       -webkit-transform : scaleX(-1);
+       transform : scaleX(-1);
+       -ms-filter : fliph; /*IE*/
+       filter : fliph; /*IE*/
+    }
   </style>
 </head>
 <body>
 <canvas></canvas>
+<!-- webカメラのキャプチャを表示する部分 本番では不要  -->
+<div id="container" >
+	<video id="videoel" width="400" height="300" preload="auto" loop hidden>
+	</video>
+	<canvas id="overlay" width="400" height="300"></canvas>
+</div>
 <script src="./app.js"></script>
 <script>
   new MarySpecial({
     $canvas: document.querySelector('canvas'),
     /* 画像の表示サイズ */
-    width: 11520 * 0.25,
-    height: 7000 * 0.25,
+    width: 11520 * 1.5,
+    height: 7000 * 1.5,
     /* 端までスクロールしたときの余白
      * パララックス効果があるので余白がないと絵の外側が表示されてしまう */
     margin: 0.1,
@@ -32,11 +55,28 @@
      * rubber: スクロール時にゴムみたいにバウンドさせる強さ。0.7ぐらいにすると分かりやすい
      * speed: スクロールの速さ */
     images: [
-      { path: './assets/images/layer01.png', strength: 0.1, rubber: 0.5, speed: 0.2 },
-      { path: './assets/images/layer02.png', strength: 0.0, rubber: 0.5, speed: 0.2 },
-      { path: './assets/images/layer03.png', strength: -0.1, rubber: 0.5, speed: 0.2 }
+      { path: './assets/images/layer01.png', strength: 0.07, rubber: 0.7, speed: 0.05 },
+      { path: './assets/images/layer02.png', strength: 0.0, rubber: 0.7, speed: 0.05 },
+      { path: './assets/images/layer03.png', strength: -0.07, rubber: 0.7, speed: 0.05 }
     ]
   });
 </script>
+<!-- 顔を検出してマウススクロールイベントを発火する部分  -->
+<script src="./clmtrackr/utils.js"></script>
+<script src="./clmtrackr/numeric-1.2.6.min.js"></script>
+<script src="./clmtrackr/mosse.js"></script>
+<script src="./clmtrackr/jsfeat-min.js"></script>
+<script src="./clmtrackr/frontalface.js"></script>
+<script src="./clmtrackr/jsfeat_detect.js"></script>
+<script src="./clmtrackr/left_eye_filter.js"></script>
+<script src="./clmtrackr/right_eye_filter.js"></script>
+<script src="./clmtrackr/nose_filter.js"></script>
+<script src="./models/model_pca_20_svm.js"></script>
+<script src="./clmtrackr/clm.js"></script>
+<script src="./clmtrackr/svmfilter_webgl.js"></script>
+<script src="./clmtrackr/svmfilter_fft.js"></script>
+<script src="./clmtrackr/mossefilter.js"></script>
+<script src="./clmtrackr/Stats.js"></script>
+<script src="./face-mouse/mouse_emulator.js"></script>
 </body>
 </html>

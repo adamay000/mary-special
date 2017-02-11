@@ -150,3 +150,5 @@ build/Release
 node_modules
 
 dist
+
+*.swp
