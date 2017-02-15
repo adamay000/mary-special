@@ -23,20 +23,16 @@ export default class LayerFilter extends PIXI.Filter {
       'uniform float x;',
       'uniform float y;',
       'void main(void) {',
-      'vec4 color = vec4(0.0);',
-      images.map((image, idx) => {
-        return (
-          `float x${idx} = (vTextureCoord.x) * ratio.x + offset.x + x * (scrollable.x + ${image.strength.toFixed(8)});` +
-          `float y${idx} = (vTextureCoord.y) * ratio.y + offset.y + y * (scrollable.y + ${image.strength.toFixed(8)});` +
-          `vec4 s${idx} = texture2D(mapSampler${idx}, vec2(x${idx}, y${idx}));` +
-          `if (x${idx} < 0.0 || x${idx} > 1.0 || y${idx} < 0.0 || y${idx} > 1.0) {` +
-          `s${idx} = vec4(0.0);` +
-          '}'
-        );
-      }).join(''),
-      images.map((image, idx) =>
-        `color = s${idx} * s${idx}.a + color * (1.0 - s${idx}.a);`
-      ).join(''),
+      'vec4 color = vec4(1.0);',
+      images.map((image, idx) => [
+        `float x${idx} = (vTextureCoord.x) * ratio.x + offset.x + x * (scrollable.x + ${image.strength.toFixed(8)});`,
+        `float y${idx} = (vTextureCoord.y) * ratio.y + offset.y + y * (scrollable.y + ${image.strength.toFixed(8)});`,
+        `vec4 s${idx} = texture2D(mapSampler${idx}, vec2(x${idx}, y${idx}));`,
+        `if (x${idx} < 0.0 || x${idx} > 1.0 || y${idx} < 0.0 || y${idx} > 1.0) {`,
+        `s${idx} = vec4(0.0);`,
+        '}'
+      ].join('')).join(''),
+      images.map((image, idx) => `color = s${idx} + color * (1.0 - s${idx}.a);`).join(''),
       'gl_FragColor = color;',
       '}'
     ].join('');
